@@ -1,20 +1,19 @@
 package com.ecomm_app.controller;
 
-import com.ecomm_app.model.JwtRequest;
-import com.ecomm_app.model.JwtResponse;
+import com.ecomm_app.dto.JwtRequest;
+import com.ecomm_app.dto.JwtResponse;
+import com.ecomm_app.dto.UserResponse;
 import com.ecomm_app.model.Users;
 import com.ecomm_app.security.JwtHelper;
 import com.ecomm_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/ecomm")
 public class UserController
 {
     @Autowired
@@ -47,16 +46,23 @@ public class UserController
         return  new ResponseEntity<>(jwtResponse, HttpStatus.OK);
 
     }
-    @PutMapping("/home/update_profile")
+    @PutMapping("/update-profile")
     public ResponseEntity<Users> updateProfile(@RequestBody Users user)
     {
         Users updated=userService.updateProfile( user);
         return new ResponseEntity<>(updated,HttpStatus.OK);
     }
-    @GetMapping("/home/get_profile")
+    @GetMapping("/profile")
     public ResponseEntity<Users> getProfile(@RequestParam String email)
     {
         return userService.getProfile( email);
+
+    }
+    @PostMapping("/validate-token")
+    public ResponseEntity<UserResponse> validate(@RequestHeader("Authorization") String token)
+    {
+        String jwtToken = token.substring(7);
+       return userService.validateToken(jwtToken);
 
     }
 }

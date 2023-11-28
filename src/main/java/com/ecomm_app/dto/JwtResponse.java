@@ -1,4 +1,4 @@
-package com.ecomm_app.model;
+package com.ecomm_app.dto;
 
 import lombok.*;
 
@@ -12,6 +12,4 @@ public class JwtResponse
 {
     private String jwtToken;
     private  String username;
-
-
 }
