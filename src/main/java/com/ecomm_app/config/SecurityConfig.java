@@ -26,9 +26,9 @@ public class SecurityConfig
         http.csrf(csrf->csrf.disable())
                 .cors(cors->cors.disable())
                 .authorizeHttpRequests(auth->auth
-                        .antMatchers("/ecomm/signup").permitAll()
-                        .antMatchers("/ecomm/login").permitAll()
-                        .antMatchers("/home/**").authenticated()
+                        .antMatchers("/signup").permitAll()
+                        .antMatchers("/login").permitAll()
+                        .antMatchers("/**").authenticated()
                         .anyRequest().authenticated())
                 .exceptionHandling(ex->ex.authenticationEntryPoint(point))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

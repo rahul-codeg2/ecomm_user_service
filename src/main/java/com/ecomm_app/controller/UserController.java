@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/ecomm")
 public class UserController
 {
     @Autowired
@@ -47,13 +46,13 @@ public class UserController
         return  new ResponseEntity<>(jwtResponse, HttpStatus.OK);
 
     }
-    @PutMapping("/home/update_profile")
+    @PutMapping("/update_profile")
     public ResponseEntity<Users> updateProfile(@RequestBody Users user)
     {
         Users updated=userService.updateProfile( user);
         return new ResponseEntity<>(updated,HttpStatus.OK);
     }
-    @GetMapping("/home/get_profile")
+    @GetMapping("/get_profile")
     public ResponseEntity<Users> getProfile(@RequestParam String email)
     {
         return userService.getProfile( email);
