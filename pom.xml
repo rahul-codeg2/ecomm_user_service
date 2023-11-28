@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.ecomm_app</groupId>
 	<artifactId>ecomm-user-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+<!--	<version>0.0.1-SNAPSHOT</version>-->
 	<name>Ecomm_application</name>
 	<description>This is an ecommerce application.</description>
 	<properties>
