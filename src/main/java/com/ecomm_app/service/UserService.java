@@ -27,17 +27,20 @@ public class UserService
     {
         try {
             Optional<Users> exist = userRepository.findByEmail(user.getEmail());
-            if (exist!=null)
+            if (!exist.isPresent())
             {
                 String encodedPassword = passwordEncoder.encode(user.getPassword());
                 user.setPassword(encodedPassword);
                 userRepository.save(user);
+                return new  ResponseEntity<UserResponse>(new UserResponse("Success","User registration successful"),HttpStatus.OK);
+            }
+            else {
+                return new  ResponseEntity<UserResponse>(new UserResponse("Failed","Email already exist"),HttpStatus.UNAUTHORIZED);
             }
 
-            return new  ResponseEntity<UserResponse>(new UserResponse("Success","User registration successful"),HttpStatus.OK);
         } catch (DataAccessException ex) {
             // Log the error or handle it as needed
-            return new  ResponseEntity<UserResponse>(new UserResponse("Failed","User registration failed"),HttpStatus.UNAUTHORIZED);
+            return new  ResponseEntity<UserResponse>(new UserResponse("Failed","User registration failed"),HttpStatus.BAD_REQUEST);
         }
     }
     public void authenticate(UserDetails userDetails,JwtRequest jwtRequest)
