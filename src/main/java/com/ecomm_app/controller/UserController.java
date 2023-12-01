@@ -1,14 +1,14 @@
 package com.ecomm_app.controller;
 
-import com.ecomm_app.model.JwtRequest;
-import com.ecomm_app.model.JwtResponse;
+import com.ecomm_app.dto.JwtRequest;
+import com.ecomm_app.dto.JwtResponse;
+import com.ecomm_app.dto.UserResponse;
 import com.ecomm_app.model.Users;
 import com.ecomm_app.security.JwtHelper;
 import com.ecomm_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class UserController
 
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody Users user)
+    public ResponseEntity<UserResponse> signUp(@RequestBody Users user)
     {
         return userService.signUp(user);
 

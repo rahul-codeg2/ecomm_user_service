@@ -1,4 +1,4 @@
-package com.ecomm_app.model;
+package com.ecomm_app.dto;
 
 import lombok.*;
 

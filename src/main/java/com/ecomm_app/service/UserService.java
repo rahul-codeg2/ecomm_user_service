@@ -1,17 +1,16 @@
 package com.ecomm_app.service;
 
-import com.ecomm_app.model.JwtRequest;
+import com.ecomm_app.dto.JwtRequest;
+import com.ecomm_app.dto.UserResponse;
 import com.ecomm_app.model.Users;
 import com.ecomm_app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @Service
 public class UserService
@@ -22,18 +21,17 @@ public class UserService
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public ResponseEntity<String> signUp(Users user)
+    public ResponseEntity<UserResponse> signUp(Users user)
     {
         try {
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
             userRepository.save(user);
-            return ResponseEntity.ok("User registration successful");
+            return new  ResponseEntity<UserResponse>(new UserResponse("Success","User registration successful"),HttpStatus.OK);
         } catch (DataAccessException ex) {
             // Log the error or handle it as needed
-            return ResponseEntity.badRequest().body("User registration failed: " + ex.getMessage());
+            return new  ResponseEntity<UserResponse>(new UserResponse("Failed","User registration failed"),HttpStatus.UNAUTHORIZED);
         }
-
     }
     public void authenticate(UserDetails userDetails,JwtRequest jwtRequest)
     {
