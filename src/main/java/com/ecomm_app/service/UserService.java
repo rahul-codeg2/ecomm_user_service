@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService
 {
@@ -24,9 +26,14 @@ public class UserService
     public ResponseEntity<UserResponse> signUp(Users user)
     {
         try {
-            String encodedPassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodedPassword);
-            userRepository.save(user);
+            Optional<Users> exist = userRepository.findByEmail(user.getEmail());
+            if (exist!=null)
+            {
+                String encodedPassword = passwordEncoder.encode(user.getPassword());
+                user.setPassword(encodedPassword);
+                userRepository.save(user);
+            }
+
             return new  ResponseEntity<UserResponse>(new UserResponse("Success","User registration successful"),HttpStatus.OK);
         } catch (DataAccessException ex) {
             // Log the error or handle it as needed
