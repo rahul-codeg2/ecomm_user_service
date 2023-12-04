@@ -37,7 +37,6 @@ public class UserController
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest)
     {
-
         UserDetails userDetails=userDetailsService.loadUserByUsername(jwtRequest.getEmail());
         userService.authenticate(userDetails,jwtRequest);
         String token=this.jwtHelper.generateToken(userDetails);
@@ -56,6 +55,7 @@ public class UserController
     public ResponseEntity<Users> getProfile(@RequestParam String email)
     {
         return userService.getProfile( email);
+
 
     }
 }

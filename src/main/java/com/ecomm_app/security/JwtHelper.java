@@ -1,11 +1,13 @@
 package com.ecomm_app.security;
 
+import com.ecomm_app.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,11 +16,14 @@ import java.util.function.Function;
 @Component
 public class JwtHelper
 {
+    @Autowired
+    private UserService userService;
     //requirement :
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
     //    public static final long JWT_TOKEN_VALIDITY =  60;
-    private String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
+    @Value("${jwt.secret-key}")
+    private String secret;
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
@@ -49,6 +54,8 @@ public class JwtHelper
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        int user_id= userService.getUserId(userDetails.getUsername());
+        claims.put("userId",user_id);
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

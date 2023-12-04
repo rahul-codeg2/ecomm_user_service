@@ -75,4 +75,9 @@ public class UserService
         Users exist=userRepository.findByEmail(email).orElse(null);
         return new ResponseEntity<>(exist, HttpStatus.OK);
     }
+
+    public  int getUserId(String email)
+    {
+        return userRepository.findByEmail(email).orElse(null).getUser_id();
+    }
 }
